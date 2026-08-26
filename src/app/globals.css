@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base typography left minimal on purpose: once the real WordPress theme's
+   look is ported over, replace/extend these with the site's actual styles
+   so headless pages match the current design pixel-for-pixel. */
+body {
+  color: #111827;
+  background: #ffffff;
+}
+
+.wp-content img {
+  max-width: 100%;
+  height: auto;
+}
