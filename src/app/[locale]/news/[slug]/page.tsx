@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getPostBySlug } from "@/lib/queries";
 import { isLocale, type Locale } from "@/lib/i18n";
+import { WpContent } from "@/components/WpContent";
 
 // Route segment config requires a literal value — keep in sync with
 // REVALIDATE_SECONDS in src/lib/wordpress.ts.
@@ -21,7 +22,7 @@ export default async function NewsPostPage({
     <article className="mx-auto max-w-3xl px-4 py-10">
       <h1 className="mb-2 text-3xl font-bold">{post.title.rendered}</h1>
       <p className="mb-6 text-sm text-gray-500">{new Date(post.date).toLocaleDateString(locale)}</p>
-      <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+      <WpContent className="wp-content" html={post.content.rendered} />
     </article>
   );
 }

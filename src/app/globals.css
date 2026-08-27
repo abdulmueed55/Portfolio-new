@@ -21,6 +21,16 @@ h6 {
   color: #000b33;
 }
 
+/* Raw WordPress page content ships its own complete embedded <style> rules
+   (colors, layout, carousels — see design-reference/README.md). Tailwind's
+   base reset and our own component styles were bleeding into it and
+   breaking those layouts. `all: revert` wipes our cascade off this subtree
+   so the page's own embedded CSS applies exactly as it does on af.net. */
+.wp-content,
+.wp-content * {
+  all: revert;
+}
+
 .wp-content img {
   max-width: 100%;
   height: auto;
