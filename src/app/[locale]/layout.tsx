@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { isLocale, locales, rtlLocales, type Locale } from "@/lib/i18n";
+import { lexend, montserrat, playfair, localeFontClassName, localeFontVariable } from "@/lib/fonts";
 import "@/app/globals.css";
 
 export function generateStaticParams() {
@@ -29,9 +30,18 @@ export default async function LocaleLayout({
   const typedLocale = locale as Locale;
   const dir = rtlLocales.includes(typedLocale) ? "rtl" : "ltr";
 
+  const fontVariables = [
+    lexend.variable,
+    montserrat.variable,
+    playfair.variable,
+    localeFontVariable(typedLocale),
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <html lang={typedLocale} dir={dir}>
-      <body className="flex min-h-screen flex-col">
+    <html lang={typedLocale} dir={dir} className={fontVariables}>
+      <body className={`flex min-h-screen flex-col ${localeFontClassName(typedLocale)}`}>
         <Header locale={typedLocale} />
         <main className="flex-1">{children}</main>
         <Footer />

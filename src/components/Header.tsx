@@ -9,14 +9,18 @@ export async function Header({ locale }: { locale: Locale }) {
   const menuItems = await getPrimaryMenu(locale).catch(() => []);
 
   return (
-    <header className="border-b border-gray-200">
+    <header className="border-b border-brand-lavender">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link href={`/${locale}`} className="text-lg font-bold">
+        <Link href={`/${locale}`} className="font-heading text-lg font-bold text-brand-navy">
           AIFOD
         </Link>
         <nav className="hidden gap-6 md:flex">
           {menuItems.map((item: any) => (
-            <Link key={item.id} href={`/${locale}${item.path ?? "/"}`} className="text-sm hover:underline">
+            <Link
+              key={item.id}
+              href={`/${locale}${item.path ?? "/"}`}
+              className="text-sm font-medium text-brand-navy hover:text-brand-pink"
+            >
               {item.label}
             </Link>
           ))}
