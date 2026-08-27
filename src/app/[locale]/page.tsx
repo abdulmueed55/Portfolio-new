@@ -1,6 +1,7 @@
 import { getPageBySlug } from "@/lib/queries";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
+import { WpContent } from "@/components/WpContent";
 
 // Route segment config requires a literal value — keep in sync with
 // REVALIDATE_SECONDS in src/lib/wordpress.ts.
@@ -27,10 +28,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     );
   }
 
-  return (
-    <article className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="mb-6 text-3xl font-bold">{page.title.rendered}</h1>
-      <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
-    </article>
-  );
+  // This is a fully custom-built page (its own hero/sections/styling), not
+  // a plain article — no title heading or narrow container wrapper here,
+  // otherwise we'd be fighting the page's own full-width design.
+  return <WpContent className="wp-content" html={page.content.rendered} />;
 }

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getPageBySlug } from "@/lib/queries";
 import { isLocale, type Locale } from "@/lib/i18n";
+import { WpContent } from "@/components/WpContent";
 
 // Route segment config requires a literal value — keep in sync with
 // REVALIDATE_SECONDS in src/lib/wordpress.ts.
@@ -26,10 +27,8 @@ export default async function GenericPage({ params }: { params: Promise<{ locale
   const page = await getPageBySlug(slug, locale as Locale).catch(() => null);
   if (!page) notFound();
 
-  return (
-    <article className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="mb-6 text-3xl font-bold">{page.title.rendered}</h1>
-      <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
-    </article>
-  );
+  // af.net's pages are built as full custom HTML/CSS layouts, not plain
+  // articles — no title heading or narrow container wrapper here, so we
+  // don't fight the page's own full-width design (matches the homepage).
+  return <WpContent className="wp-content" html={page.content.rendered} />;
 }
