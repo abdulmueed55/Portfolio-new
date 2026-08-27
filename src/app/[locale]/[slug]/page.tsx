@@ -12,8 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
   const page = await getPageBySlug(slug, locale as Locale).catch(() => null);
   return {
-    title: page?.seo?.title ?? page?.title,
-    description: page?.seo?.metaDesc,
+    title: page?.title.rendered,
   };
 }
 
@@ -29,8 +28,8 @@ export default async function GenericPage({ params }: { params: Promise<{ locale
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="mb-6 text-3xl font-bold">{page.title}</h1>
-      <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content }} />
+      <h1 className="mb-6 text-3xl font-bold">{page.title.rendered}</h1>
+      <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
     </article>
   );
 }

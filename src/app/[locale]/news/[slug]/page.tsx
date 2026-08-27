@@ -19,9 +19,9 @@ export default async function NewsPostPage({
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="mb-2 text-3xl font-bold">{post.title}</h1>
+      <h1 className="mb-2 text-3xl font-bold">{post.title.rendered}</h1>
       <p className="mb-6 text-sm text-gray-500">{new Date(post.date).toLocaleDateString(locale)}</p>
-      <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div className="wp-content" dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
     </article>
   );
 }

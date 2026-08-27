@@ -2,15 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base typography left minimal on purpose: once the real WordPress theme's
-   look is ported over, replace/extend these with the site's actual styles
-   so headless pages match the current design pixel-for-pixel. */
+/* Colors/fonts pulled from af.net's live CSS — see design-reference/README.md.
+   font-family here (not just the Tailwind config) so it also wins for
+   locales without a font override (see src/lib/fonts.ts). */
 body {
-  color: #111827;
+  color: #000b33;
   background: #ffffff;
+  font-family: var(--font-locale, var(--font-lexend)), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-locale, var(--font-montserrat)), sans-serif;
+  color: #000b33;
 }
 
 .wp-content img {
   max-width: 100%;
   height: auto;
+}
+
+/* Matches af.net's .kb-button: fully rounded pill, navy background, white text. */
+.btn-pill {
+  display: inline-block;
+  border-radius: 999px;
+  background: #000b33;
+  color: #ffffff;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  transition: opacity 0.15s ease;
+}
+
+.btn-pill:hover {
+  opacity: 0.85;
+}
+
+.btn-pill-accent {
+  background: #e21e51;
 }

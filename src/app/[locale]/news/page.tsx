@@ -20,20 +20,19 @@ export default async function NewsPage({ params }: { params: Promise<{ locale: s
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post: any) => (
           <Link key={post.id} href={`/${locale}/news/${post.slug}`} className="block">
-            {post.featuredImage?.node?.sourceUrl && (
+            {post.featured_image_urls?.medium && (
               <Image
-                src={post.featuredImage.node.sourceUrl}
-                alt={post.featuredImage.node.altText ?? post.title}
+                src={post.featured_image_urls.medium}
+                alt={post.title.rendered}
                 width={400}
                 height={240}
                 className="mb-3 h-40 w-full rounded object-cover"
               />
             )}
-            <h2 className="text-lg font-semibold">{post.title}</h2>
-            <div
-              className="mt-1 text-sm text-gray-500"
-              dangerouslySetInnerHTML={{ __html: post.excerpt }}
-            />
+            <h2 className="text-lg font-semibold">{post.title.rendered}</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              {post.plain_excerpt || post.excerpt.rendered.replace(/<[^>]+>/g, "")}
+            </p>
           </Link>
         ))}
       </div>
