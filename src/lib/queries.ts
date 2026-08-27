@@ -47,15 +47,26 @@ interface WpPost {
 
 function langParam(locale: Locale) {
   // Matches the `?lang=xx` convention used by both WPML's and Polylang's
-  // REST API language support. Confirm this is enabled on af.net — if a
-  // different multilingual plugin is active, adjust this one spot.
+  // REST API language support. WPML is confirmed active on af.net, but its
+  // REST language negotiation isn't enabled yet — this param is currently a
+  // no-op (WordPress just ignores it), and starts working the moment that
+  // setting is turned on, with no code changes needed here.
   return wpLanguageCodes[locale].toLowerCase();
 }
 
+// af.net's static front page (Settings → Reading) isn't reachable by a
+// predictable slug — verified via the live site's `page-id-64423` body
+// class. Only valid for the English site; revisit once other languages
+// are wired up (each translation has its own page ID under WPML).
+const HOME_PAGE_ID = 64423;
+
 export async function getPageBySlug(slug: string, locale: Locale) {
-  const cleanSlug = slug === "/" ? "home" : slug;
+  if (slug === "/") {
+    return wpFetch<WpPage>(`/wp/v2/pages/${HOME_PAGE_ID}`);
+  }
+
   const pages = await wpFetch<WpPage[]>("/wp/v2/pages", {
-    slug: cleanSlug,
+    slug,
     lang: langParam(locale),
   });
   return pages[0] ?? null;
